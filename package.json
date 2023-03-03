@@ -1,0 +1,23 @@
+{
+  "name": "createNewVue3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack-dev-server"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@vue/compiler-sfc": "3.2.37",
+    "html-webpack-plugin": "4.5.0",
+    "vue-loader": "^16.5.0",
+    "webpack": "4.44.2",
+    "webpack-cli": "3.3.12",
+    "webpack-dev-server": "3.11.2"
+  },
+  "dependencies": {
+    "qs": "^6.11.0"
+  }
+}
