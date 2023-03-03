@@ -34,15 +34,15 @@ const vm = new Vue({
     },
     watch: {
         total(newValue, oldValue) {
-            console.log('total', newValue, oldValue)
+            console.log('total watch', newValue, oldValue)
 
         },
         a(newValue, oldValue) {
-            console.log('a', newValue, oldValue)
+            console.log('a watch', newValue, oldValue)
 
         },
         b(newValue, oldValue) {
-            console.log('b', newValue, oldValue)
+            console.log('b watch', newValue, oldValue)
         },
     }
 })

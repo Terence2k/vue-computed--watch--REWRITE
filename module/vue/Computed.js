@@ -39,10 +39,8 @@ class Computed {
             dep
         })
 
-        console.log(descriptorFn ,'descriptorFn')
 
         const dataItem = this.computedData.find(item => item.key === key)
-        console.log(dataItem, 'dataItem', descriptor)
         //把里面的数据放到实例上面，进行响应式
         Object.defineProperty(vm, key, {
             get() {
@@ -54,14 +52,15 @@ class Computed {
         })
     }
 
-    update(key, cb) {
+    update(key, watch) {
         this.computedData.map(item => {
             const dep = item.dep
             const _key = dep.find(el => el == key)
 
             if (_key) {
+                const oldValue = item.value
                 item.value = item.get()
-                cb && cb(item.key, item.value)
+                watch(item.key, item.value, oldValue)
 
             }
         })

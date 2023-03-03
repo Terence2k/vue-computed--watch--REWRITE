@@ -21,6 +21,7 @@
  */
 import { reactive } from './reactive'
 import Computed from './Computed'
+import Watcher from './Watcher'
 
 
 class Vue {
@@ -37,19 +38,30 @@ class Vue {
 
         this.initData(vm)
         const computedIns = this.initComputed(vm, computed)
+        const watcherIns = this.initWatcher(vm, watch)
 
         this.$computed = computedIns.update.bind(computedIns)
+        this.$watch = watcherIns.invoke.bind(watcherIns)
     }
 
     initData(vm) {
         //数据响应式
-        reactive(vm, (key, value) => {
-            // console.log(key, value, '__get__')
-        }, (key, newValue, oldValue) => {
+        reactive(vm,
+            (key, value) => {
+                // console.log(key, value, '__get__')
+            },
+            (key, newValue, oldValue) => {
 
-            this.$computed(key)
-            // console.log(newValue, oldValue, '__set__')
-        })
+                if (newValue === oldValue) {
+                    return
+                }  // 无变化不更新
+
+
+                // console.log(newValue, oldValue, '__set__')
+
+                this.$computed(key, this.$watch)
+                this.$watch(key, newValue, oldValue)
+            })
     }
 
     initComputed(vm, computed) {
@@ -68,6 +80,13 @@ class Vue {
     initWatcher(vm, watch) {
         //枚举watcher -> 增加侦听器
         //返回实例 -> 实例有调用watch的方法 -> 执行侦听器
+        const watcherIns = new Watcher()
+
+        for (let key in watch) {
+            watcherIns.addWatcher(vm, watch, key)
+        }
+
+        return watcherIns
     }
 
     createApp(el) {
